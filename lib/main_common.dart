@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khmerbike/ui/screens/map_station/map_station_screen.dart';
 import 'package:provider/provider.dart';
 
 void mainCommon(List<InheritedProvider> providers) {
@@ -16,10 +17,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Khmer Bike')),
-        body: Center(child: Text('Welcome to Khmer Bike!')),
-      ),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(body: MapStationScreen()),
     );
   }
 }
