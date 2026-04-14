@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 class BikeDockCard extends StatelessWidget {
-  final String dockName;
-  final String bikeId;
+  final String dockId;
   final VoidCallback onUnlock;
 
   const BikeDockCard({
     Key? key,
-    required this.bikeId,
-    required this.onUnlock, required this.dockName,
+    required this.dockId,
+    required this.onUnlock,
   }) : super(key: key);
 
   @override
@@ -43,13 +42,13 @@ class BikeDockCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  dockName,
+                  'Dock: $dockId',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  bikeId,
+                  dockId,
                   style: const TextStyle(color: Colors.grey, fontSize: 13),
                 ),
               ],
