@@ -116,7 +116,7 @@ class StationDetailPage extends StatelessWidget {
                         child: BikeDockCard(
                           dockId: dock.id,
                           onUnlock: () =>
-                              viewModel.showBookConfirmation(context),
+                              viewModel.showBookConfirmation(context, dock.id),
                         ),
                       );
                     },
