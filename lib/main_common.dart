@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/ui/screens/map_station/map_station_screen.dart';
+import 'package:khmerbike/ui/screens/station/widgets/station_content.dart';
 import 'package:provider/provider.dart';
 
 void mainCommon(List<InheritedProvider> providers) {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: MapStationScreen()),
+      home: Scaffold(body: StationDetailPage()),
     );
   }
 }
