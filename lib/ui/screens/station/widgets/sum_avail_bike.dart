@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class TotalAvailBike extends StatelessWidget {
+class SumAvailBike extends StatelessWidget {
   final int count;
 
-  const TotalAvailBike({Key? key, required this.count}) : super(key: key);
+  const SumAvailBike({
+    Key? key,
+    required this.count,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +25,22 @@ class TotalAvailBike extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             children: const [
-              Icon(Icons.pedal_bike, color: Color(0xFF22C55E), size: 20),
+              Icon(
+                Icons.pedal_bike,
+                color: Color(0xFF22C55E),
+                size: 20,
+              ),
               SizedBox(width: 8),
               Text(
                 'Available Bikes',
-                style: TextStyle(color: Colors.grey, fontSize: 11),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 11,
+                ),
               ),
             ],
           ),

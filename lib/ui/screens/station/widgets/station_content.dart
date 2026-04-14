@@ -3,6 +3,7 @@ import 'package:khmerbike/data/repository/station/station_reposity_mock.dart';
 import 'package:khmerbike/models/dock.dart';
 import 'package:khmerbike/ui/screens/station/widgets/appbar.dart';
 import 'package:khmerbike/ui/screens/station/widgets/dockCard_tile.dart';
+import 'package:khmerbike/ui/screens/station/widgets/sum_avail_bike.dart';
 import 'package:khmerbike/ui/screens/station/view_model/station_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -43,65 +44,19 @@ class StationDetailPage extends StatelessWidget {
               onBackPressed: () {},
             ),
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          width: 140,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: const [
-                                  Icon(
-                                    Icons.pedal_bike,
-                                    color: Color(0xFF22C55E),
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'Available Bikes',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                '${availableDocks.length}',
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        _availableTitle(),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SumAvailBike(count: availableDocks.length),
+                      const SizedBox(height: 30),
+                      _availableTitle(),
+                      const SizedBox(height: 16),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -116,7 +71,7 @@ class StationDetailPage extends StatelessWidget {
                         child: BikeDockCard(
                           dockId: dock.id,
                           onUnlock: () =>
-                              viewModel.showBookConfirmation(context),
+                              viewModel.showBookConfirmation(context, dock.id),
                         ),
                       );
                     },

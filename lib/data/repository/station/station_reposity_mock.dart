@@ -41,12 +41,30 @@ class StationRepositoryMock implements StationRepository {
       Station(
         id: '1',
         name: 'Station A',
-        location: Location(
-          latitude: 11.5466,
-          longitude: 104.8441,
-          name: 'Location A',
-        ),
-        docks: _generateRandomDocks(5 + _random.nextInt(6)),
+        location: Location(latitude: 10.0, longitude: 10.0, name: 'Location A'),
+        docks: [
+          Dock(
+            id: 'A1',
+            bike: Bike(id: '1', status: BikeStatus.available),
+          ),
+          Dock(
+            id: 'A2',
+            bike: Bike(id: '2', status: BikeStatus.inUse),
+          ),
+          Dock(
+            id: 'A3',
+            bike: Bike(id: '3', status: BikeStatus.maintenance),
+          ),
+          //more available docks
+          Dock(
+            id: 'A4',
+            bike: Bike(id: '7', status: BikeStatus.available),
+          ),
+          Dock(
+            id: 'A5',
+            bike: Bike(id: '8', status: BikeStatus.available),
+          ),    
+        ],
       ),
       Station(
         id: '2',
