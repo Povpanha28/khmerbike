@@ -20,7 +20,7 @@ class StationViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  // FIX 1: Safely get the selected dock without throwing a StateError
+  // Get the selected dock without throwing a StateError
   Dock? get selectedDock {
     if (_station == null || _selectedDockId == null) return null;
     

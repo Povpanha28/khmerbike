@@ -25,6 +25,15 @@ class StationRepositoryMock implements StationRepository {
             id: 'A3',
             bike: Bike(id: '3', status: BikeStatus.maintenance),
           ),
+          //more available docks
+          Dock(
+            id: 'A4',
+            bike: Bike(id: '7', status: BikeStatus.available),
+          ),
+          Dock(
+            id: 'A5',
+            bike: Bike(id: '8', status: BikeStatus.available),
+          ),    
         ],
       ),
       Station(
