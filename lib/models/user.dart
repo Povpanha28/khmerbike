@@ -1,5 +1,3 @@
-import 'package:khmerbike/models/bike_pass.dart';
-
 class User {
   final String id;
   final String name;
