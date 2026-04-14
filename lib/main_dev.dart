@@ -1,10 +1,12 @@
+import 'package:khmerbike/data/repository/station/station_reposity_mock.dart';
+import 'package:khmerbike/data/repository/station/station_repository.dart';
 import 'package:khmerbike/main_common.dart';
 import 'package:provider/provider.dart';
 
 /// Configure provider dependencies for dev environment
 List<InheritedProvider> get devProviders {
   return [
-    Provider(create: (_) => null), // Add your dev-specific providers here
+    Provider<StationRepository>(create: (context) => StationRepositoryMock()),
   ];
 }
 

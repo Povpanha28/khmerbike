@@ -7,7 +7,10 @@ void mainCommon(List<InheritedProvider> providers) {
   runApp(
     MultiProvider(
       providers: providers,
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: MyApp()),
+      ),
     ),
   );
 }
