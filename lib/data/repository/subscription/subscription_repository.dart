@@ -1,6 +1,8 @@
-import 'package:khmerbike/models/subscription.dart';
+import 'package:khmerbike/models/subscription_info.dart';
 
 abstract class SubscriptionRepository {
-  Future<void> addSubscription(Subscription subscription);
-  Future<Subscription?> getSubscription(String userId);
+  Future<List<SubscriptionInfo>> getSubscriptionInfo();
+  Future<SubscriptionInfo?> getActivePass();
+  Future<void> buyPass(String passId);
+  Future<void> cancelSubscription();
 }
