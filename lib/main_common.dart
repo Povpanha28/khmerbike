@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/ui/screens/map_station/map_station_screen.dart';
+<<<<<<< HEAD
 import 'package:khmerbike/ui/screens/subscription/subscription_screen.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
+=======
+import 'package:khmerbike/ui/screens/station/widgets/station_content.dart';
+>>>>>>> 8ec2acceb92dd8e84a0cf762a61244dc1a5655e0
 import 'package:provider/provider.dart';
 
 void mainCommon(List<InheritedProvider> providers) {
   runApp(
     MultiProvider(
       providers: providers,
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: MyApp()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: MyApp()),
+      ),
     ),
   );
 }
@@ -21,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: Scaffold(body: SubscriptionScreen()),
+      home: Scaffold(body: StationDetailPage()),
     );
   }
 }

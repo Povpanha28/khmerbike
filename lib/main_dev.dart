@@ -1,5 +1,7 @@
 import 'package:khmerbike/data/repository/subscription/subscription_repository_mock.dart';
 import 'package:khmerbike/data/repository/subscription/subscription_repository.dart';
+import 'package:khmerbike/data/repository/station/station_reposity_mock.dart';
+import 'package:khmerbike/data/repository/station/station_repository.dart';
 import 'package:khmerbike/main_common.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +11,7 @@ List<InheritedProvider> get devProviders {
     Provider<SubscriptionRepository>(
       create: (_) => SubscriptionRepositoryMock(),
     ),
+    Provider<StationRepository>(create: (context) => StationRepositoryMock()),
   ];
 }
 
