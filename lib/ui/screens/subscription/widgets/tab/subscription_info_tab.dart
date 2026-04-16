@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/subscription_info.dart';
+import 'package:khmerbike/models/bike_pass.dart';
 import 'package:khmerbike/ui/screens/subscription/view_model/subscription_view_model.dart';
 import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/subscription_detail_modal.dart';
 import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/subscription_card.dart';
@@ -35,8 +35,11 @@ class _SubscriptionInfoTabState extends State<SubscriptionInfoTab> {
           separatorBuilder: (_, __) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
             final pass = viewModel.subscriptionPlans[index];
+            final isActive =
+                viewModel.activeSubscription?.subInfoId == pass.id;
             return SubscriptionCard(
               pass: pass,
+              isActive: isActive,
               onTap: () => _showPassDetailModal(context, pass),
             );
           },
@@ -47,7 +50,7 @@ class _SubscriptionInfoTabState extends State<SubscriptionInfoTab> {
 
   Future<void> _showPassDetailModal(
     BuildContext context,
-    SubscriptionInfo pass,
+    BikePass pass,
   ) async {
     final viewModel = context.read<SubscriptionViewModel>();
     if (mounted) {
