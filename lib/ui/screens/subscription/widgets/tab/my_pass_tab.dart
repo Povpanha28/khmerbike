@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/subscription_info.dart';
+import 'package:khmerbike/models/bike_pass.dart';
 import 'package:khmerbike/ui/screens/subscription/view_model/subscription_view_model.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 import 'package:khmerbike/ui/widget/app_buttons.dart';
@@ -68,7 +68,7 @@ class MyPassTab extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _TicketCard extends StatelessWidget {
-  final SubscriptionInfo pass;
+  final BikePass pass;
 
   const _TicketCard({required this.pass});
 

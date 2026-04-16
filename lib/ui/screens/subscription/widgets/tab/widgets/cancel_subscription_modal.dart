@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/subscription_info.dart';
+import 'package:khmerbike/models/bike_pass.dart';
 import 'package:khmerbike/ui/screens/subscription/view_model/subscription_view_model.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 import 'package:khmerbike/ui/widget/detail_row.dart';
@@ -9,7 +9,7 @@ class CancelSubscriptionModal {
   static void show(
     BuildContext context,
     SubscriptionViewModel viewModel,
-    SubscriptionInfo activePass,
+    BikePass activePass,
   ) {
     showModalBottomSheet<void>(
       context: context,

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/subscription_info.dart';
+import 'package:khmerbike/models/bike_pass.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class SubscriptionCard extends StatelessWidget {
-  final SubscriptionInfo pass;
+  final BikePass pass;
+  final bool isActive;
   final VoidCallback onTap;
 
-  const SubscriptionCard({required this.pass, required this.onTap});
+  const SubscriptionCard({
+    super.key,
+    required this.pass,
+    this.isActive = false,
+    required this.onTap,
+  });
 
   String _getPricePeriod(String id) {
     if (id.contains('annual') || id.contains('year')) return 'per year';
@@ -27,26 +33,30 @@ class SubscriptionCard extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryGreen,
+                  color: isActive
+                      ? const Color(0xFF15803D)
+                      : AppTheme.primaryGreen,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.only(right: 14),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'TAP',
-                      style: TextStyle(
+                      isActive ? 'Used' : 'TAP',
+                      style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                         letterSpacing: 1.2,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Icon(
-                      Icons.chevron_right_rounded,
+                      isActive
+                          ? Icons.check_circle_rounded
+                          : Icons.chevron_right_rounded,
                       color: Colors.white,
                       size: 20,
                     ),
