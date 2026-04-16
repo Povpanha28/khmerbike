@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khmerbike/models/station.dart';
 import 'package:khmerbike/ui/screens/map_station/widgets/station_modal.dart';
+import 'package:khmerbike/ui/screens/station/station_detail.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class CustomMap extends StatefulWidget {
@@ -155,13 +156,13 @@ class _CustomMapState extends State<CustomMap> {
   }
 
   void showStationModal(BuildContext context, Station station) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (_) => StationModal(station: station),
-  );
-}
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => StationModal(station: station),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +182,7 @@ class _CustomMapState extends State<CustomMap> {
             icon: _stationIcons[station.id] ?? _customMarker,
             infoWindow: InfoWindow(title: station.name),
             onTap: () => {
-              // Navigate to station details or show a bottom sheet with more info
+              // Navigate to station details screen
               showStationModal(context, station),
             },
           ),

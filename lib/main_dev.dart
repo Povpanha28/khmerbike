@@ -1,8 +1,8 @@
 import 'package:khmerbike/data/repository/bike_pass/bike_pass_repository.dart';
 import 'package:khmerbike/data/repository/bike_pass/bike_pass_repository_firebase.dart';
+import 'package:khmerbike/data/repository/station/station_repository_firebase.dart';
 import 'package:khmerbike/data/repository/subscription/subscription_repository_firebase.dart';
 import 'package:khmerbike/data/repository/subscription/subscription_repository.dart';
-import 'package:khmerbike/data/repository/station/station_reposity_mock.dart';
 import 'package:khmerbike/data/repository/station/station_repository.dart';
 import 'package:khmerbike/main_common.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ List<InheritedProvider> get devProviders {
     Provider<SubscriptionRepository>(
       create: (_) => SubscriptionRepositoryFirebase(),
     ),
-    Provider<StationRepository>(create: (context) => StationRepositoryMock()),
+    Provider<StationRepository>(create: (context) => StationRepositoryFirebase()),
   ];
 }
 

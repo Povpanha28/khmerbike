@@ -45,9 +45,10 @@
       "address": "Phnom Penh",
       "lat": 11.5432,
       "lng": 104.9211,
-      "totalDocks": 20,
-      "availableBikes": 8,
-      "availableDocks": 12,
+      "docks": [
+        {"dock_001": {"bike": {"id": "bike_001", "status": "available"}}},
+        {"dock_002": {"bike": {"id": "bike_002", "status": "available"}}}
+      ],
       "isActive": true
     },
     "st_riverside_1": {
@@ -55,9 +56,9 @@
       "address": "Sisowath Quay",
       "lat": 11.5678,
       "lng": 104.9234,
-      "totalDocks": 16,
-      "availableBikes": 5,
-      "availableDocks": 11,
+      "docks": [
+        {"dock_003": {"bike": {"id": "bike_003", "status": "available"}}}
+      ],
       "isActive": true
     }
   },

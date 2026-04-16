@@ -8,6 +8,9 @@ class StationDto {
   static const String latKey = 'lat';
   static const String lngKey = 'lng';
   static const String docksKey = 'docks';
+  static const String addressKey = 'address';
+  static const String totalDocksKey = 'totalDocks';
+  static const String isActiveKey = 'isActive';
 
   static Station fromJson(String id, Map<String, dynamic> json) {
     assert(json[nameKey] is String);
@@ -17,9 +20,21 @@ class StationDto {
     final List<Dock> docks = [];
     final dynamic docksJson = json[docksKey];
 
+    // Support two dock formats:
+    // 1) Map of dockId -> { 'bike': { ... } }
+    // 2) List of single-entry maps: [{ 'dock001': { 'bikeId': 'bike_001' } }, ...]
     if (docksJson is Map<String, dynamic>) {
       for (final entry in docksJson.entries) {
-        final dynamic bikeJson = entry.value['bike'];
+        final dynamic value = entry.value;
+
+        // value may be:
+        // - { 'bike': { 'id': 'bike_001', 'status': 'available' } }
+        // - { 'id': 'bike_001', 'status': 'available' } (inline bike)
+        // - { 'bikeId': 'bike_001' } (no status)
+        final dynamic bikeJson = value is Map<String, dynamic>
+            ? (value['bike'] ?? (value.containsKey('id') ? value : null))
+            : null;
+
         docks.add(
           Dock(
             id: entry.key,
@@ -31,6 +46,29 @@ class StationDto {
                 : null,
           ),
         );
+      }
+    } else if (docksJson is List) {
+      for (final item in docksJson) {
+        if (item is Map<String, dynamic> && item.keys.isNotEmpty) {
+          final String dockId = item.keys.first;
+          final dynamic value = item[dockId];
+
+          final dynamic bikeJson = value is Map<String, dynamic>
+              ? (value['bike'] ?? (value.containsKey('id') ? value : null))
+              : null;
+
+          docks.add(
+            Dock(
+              id: dockId,
+              bike: bikeJson is Map<String, dynamic>
+                  ? BikeDto.fromJson(
+                      bikeJson['id'] as String,
+                      Map<String, dynamic>.from(bikeJson),
+                    )
+                  : null,
+            ),
+          );
+        }
       }
     }
 
@@ -53,10 +91,7 @@ class StationDto {
       docksJson[dock.id] = {
         'bike': dock.bike == null
             ? null
-            : {
-                'id': dock.bike!.id,
-                ...BikeDto.toJson(dock.bike!),
-              },
+            : {'id': dock.bike!.id, ...BikeDto.toJson(dock.bike!)},
       };
     }
 
