@@ -43,10 +43,10 @@ class SubscriptionState extends ChangeNotifier {
     switch (subscription.subInfoId) {
       case 'pass_monthly':
         return 'Monthly';
-      case 'pass_daily':
+      case 'pass_day':
         return 'Daily';
 
-      case 'pass_yearly':
+      case 'pass_annual':
         return 'Yearly';
 
       default:
