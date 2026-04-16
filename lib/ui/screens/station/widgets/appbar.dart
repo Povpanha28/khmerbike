@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:khmerbike/models/subscription.dart';
 
 class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String stationName;
   final String locationName;
+  final String subscriptionType;
   final VoidCallback? onBackPressed;
 
   const StationAppBar({
     Key? key,
     required this.stationName,
     required this.locationName,
+    required this.subscriptionType,
     this.onBackPressed,
   }) : super(key: key);
 
@@ -54,12 +57,12 @@ class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
-                children: const [
-                  Icon(Icons.credit_card, color: Color(0xFF22C55E), size: 18),
-                  SizedBox(width: 6),
+                children: [
+                  const Icon(Icons.credit_card, color: Color(0xFF22C55E), size: 18),
+                  const SizedBox(width: 6),
                   Text(
-                    'Monthly',
-                    style: TextStyle(
+                    subscriptionType,
+                    style: const TextStyle(
                       color: Color(0xFF22C55E),
                       fontWeight: FontWeight.w500,
                       fontSize: 13,

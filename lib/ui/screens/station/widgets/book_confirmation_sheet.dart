@@ -4,7 +4,8 @@ import 'package:khmerbike/ui/screens/station/view_model/station_view_model.dart'
 
 // The Bottom Sheet Widget
 class BookConfirmationSheet extends StatelessWidget {
-  const BookConfirmationSheet({Key? key}) : super(key: key);
+  final String subscriptionType;
+  const BookConfirmationSheet({super.key, required this.subscriptionType});
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +72,18 @@ class BookConfirmationSheet extends StatelessWidget {
 
                 // Pass Info Card
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Using Pass',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -87,8 +91,8 @@ class BookConfirmationSheet extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Weekly', // TODO: Make this dynamic from ViewModel
-                        style: TextStyle(
+                        subscriptionType,
+                        style: const TextStyle(
                           color: Colors.black87,
                           fontSize: 14,
                         ),
@@ -177,10 +181,7 @@ class BookConfirmationSheet extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 13,
-                  ),
+                  style: const TextStyle(color: Colors.grey, fontSize: 13),
                 ),
               ],
             ),

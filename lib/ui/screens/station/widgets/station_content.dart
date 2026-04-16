@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/models/dock.dart';
+import 'package:khmerbike/models/subscription.dart';
 import 'package:khmerbike/ui/screens/station/widgets/appbar.dart';
 import 'package:khmerbike/ui/screens/station/widgets/dockCard_tile.dart';
 import 'package:khmerbike/ui/screens/station/widgets/sum_avail_bike.dart';
@@ -36,6 +37,7 @@ class StationContent extends StatelessWidget {
           appBar: StationAppBar(
             stationName: station.name,
             locationName: station.location.name,
+            subscriptionType: viewModel.getSubscriptionType(),
             onBackPressed: () {
               Navigator.pop(context);
             },
