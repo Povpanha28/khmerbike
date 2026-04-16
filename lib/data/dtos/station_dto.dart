@@ -81,6 +81,7 @@ class StationDto {
         name: json[nameKey] as String,
       ),
       docks: docks,
+      totalDocks: json[totalDocksKey] as int
     );
   }
 
