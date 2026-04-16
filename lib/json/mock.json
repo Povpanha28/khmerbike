@@ -36,7 +36,7 @@
     },
     "bike_003": {
       "stationId": "st_riverside_1",
-      "status": "inUse"
+      "status": "available"
     }
   },
   "stations": {
@@ -45,9 +45,11 @@
       "address": "Phnom Penh",
       "lat": 11.5432,
       "lng": 104.9211,
-      "totalDocks": 20,
-      "availableBikes": 8,
-      "availableDocks": 12,
+       "totalDocks": 16,
+      "docks" : [
+        {"dock001": {"bikeId": "bike_001", "status": "available"}},
+        {"dock002": {"bikeId": "bike_002", "status": "available"}}
+      ],
       "isActive": true
     },
     "st_riverside_1": {
@@ -56,8 +58,9 @@
       "lat": 11.5678,
       "lng": 104.9234,
       "totalDocks": 16,
-      "availableBikes": 5,
-      "availableDocks": 11,
+      "docks" : [
+        {"dock001": {"bikeId": "bike_003", "status": "available"}}
+      ],
       "isActive": true
     }
   },

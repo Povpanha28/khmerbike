@@ -7,8 +7,9 @@ class Station {
   final String name;
   final Location location;
   List<Dock> docks;
+  final int totalDocks;
 
-  Station({required this.id, required this.name, required this.location, required this.docks});
+  Station({required this.id, required this.name, required this.location, required this.docks, required this.totalDocks});
 
   @override
   String toString() {

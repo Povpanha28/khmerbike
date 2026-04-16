@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khmerbike/models/bike.dart';
 import 'package:khmerbike/models/station.dart';
+import 'package:khmerbike/ui/screens/station/station_detail.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class StationModal extends StatelessWidget {
@@ -9,7 +11,7 @@ class StationModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final availableBikes = station.docks.where((d) => d.bike != null).length;
+    final availableBikes = station.docks.where((d) => d.bike?.status == BikeStatus.available).length;
 
     final textTheme = Theme.of(context).textTheme;
 
@@ -114,7 +116,7 @@ class StationModal extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${station.docks.length} docks',
+                      'empty docks : ${station.totalDocks - station.docks.length}',
                       style: textTheme.bodyMedium,
                     ),
                   ],
@@ -141,12 +143,16 @@ class StationModal extends StatelessWidget {
                   ),
                   onPressed: availableBikes > 0
                       ? () {
-                          Navigator.pop(context);
-                          // reservation logic
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StationDetail(stationId: station.id),
+                            ),
+                          );
                         }
                       : null,
                   child: const Text(
-                    'Reserve',
+                    'Book a bike',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

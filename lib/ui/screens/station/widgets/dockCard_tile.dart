@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:khmerbike/models/dock.dart';
 class BikeDockCard extends StatelessWidget {
-  final String dockId;
+  final Dock dock;
   final VoidCallback onUnlock;
 
   const BikeDockCard({
     Key? key,
-    required this.dockId,
+    required this.dock,
     required this.onUnlock,
   }) : super(key: key);
 
@@ -42,13 +43,13 @@ class BikeDockCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Dock: $dockId',
+                  'Dock: ${dock.id}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  dockId,
+                  dock.bike != null ? 'Bike ID: ${dock.bike!.id}' : 'No bike available',
                   style: const TextStyle(color: Colors.grey, fontSize: 13),
                 ),
               ],
