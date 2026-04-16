@@ -9,6 +9,7 @@ class PrimaryButton extends StatelessWidget {
   final EdgeInsets padding;
 
   const PrimaryButton({
+    super.key,
     required this.label,
     required this.onPressed,
     this.fontSize = 16,
@@ -50,6 +51,7 @@ class SecondaryButton extends StatelessWidget {
   final EdgeInsets padding;
 
   const SecondaryButton({
+    super.key,
     required this.label,
     required this.onPressed,
     this.fontSize = 15,
@@ -91,6 +93,7 @@ class DangerOutlinedButton extends StatelessWidget {
   final EdgeInsets padding;
 
   const DangerOutlinedButton({
+    super.key,
     required this.label,
     required this.onPressed,
     this.fontSize = 15,
@@ -132,6 +135,7 @@ class BorderedTextButton extends StatelessWidget {
   final EdgeInsets padding;
 
   const BorderedTextButton({
+    super.key,
     required this.label,
     required this.onPressed,
     this.fontSize = 15,
