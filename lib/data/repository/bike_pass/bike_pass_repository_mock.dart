@@ -4,39 +4,34 @@ import 'package:khmerbike/models/bike_pass.dart';
 class BikePassRepositoryMock implements BikePassRepository {
   @override
   Future<List<BikePass>> getBikePass() async {
-    // Mock implementation, returning a list of dummy BikePasses
+    // Mock implementation, returning a list of dummy bike passes
     return [
       BikePass(
-        id: '1',
-        type: PassType.daily,
-        name: 'Daily Pass',
-        description: 'Access for 24 hours',
-        duration: Duration(days: 1),
-        price: 5.0,
+        id: 'daily',
+        passType: PassType.daily,
+        name: 'Day pass',
+        description: 'First 60 min free per ride\nPlease use within 24 hours',
+        validityDays: 1,
+        price: 1.99,
+        tag: 'Subscribe & Save',
       ),
       BikePass(
-        id: '2',
-        type: PassType.monthly,
-        name: 'Monthly Pass',
-        description: 'Access for 30 days',
-        duration: Duration(days: 30),
-        price: 20.0,
+        id: 'monthly',
+        passType: PassType.monthly,
+        name: 'Monthly pass',
+        description: 'First 60 min free per ride\nPlease use within 30 days',
+        validityDays: 30,
+        price: 19.99,
+        tag: 'Most Popular',
       ),
       BikePass(
-        id: '3',
-        type: PassType.annual,
-        name: 'Annual Pass',
-        description: 'Access for 365 days',
-        duration: Duration(days: 365),
-        price: 100.0,
-      ),
-      BikePass(
-        id: '4',
-        type: PassType.oneTime,
-        name: 'One-Time Pass',
-        description: 'Single use access',
-        duration: Duration(hours: 1),
-        price: 2.0,
+        id: 'annual',
+        passType: PassType.annual,
+        name: 'Annual pass',
+        description: 'First 60 min free per ride\nPlease use within 365 days',
+        validityDays: 365,
+        price: 59.99,
+        tag: 'Best Value',
       ),
     ];
   }

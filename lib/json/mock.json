@@ -1,0 +1,71 @@
+{
+  "bike_passes": {
+    "pass_day": {
+      "passType": "daily",
+      "name": "Day pass",
+      "description": "First 60 min free per ride",
+      "price": 1.99,
+      "tag": "Save & Subscribe",
+      "durationDays": 1
+    },
+    "pass_monthly": {
+      "passType": "monthly",
+      "name": "Monthly pass",
+      "description": "First 60 min free per ride",
+      "price": 19.99,
+      "tag": "Most popular",
+      "durationDays": 30
+    },
+    "pass_annual": {
+      "passType": "annual",
+      "name": "Annual pass",
+      "description": "First 60 min free per ride",
+      "price": 59.99,
+      "tag": "Best value",
+      "durationDays": 365
+    }
+  },
+  "bikes": {
+    "bike_001": {
+      "stationId": "st_aeon_1",
+      "status": "available"
+    },
+    "bike_002": {
+      "stationId": "st_aeon_1",
+      "status": "available"
+    },
+    "bike_003": {
+      "stationId": "st_riverside_1",
+      "status": "inUse"
+    }
+  },
+  "stations": {
+    "st_aeon_1": {
+      "name": "AEON Mall 1",
+      "address": "Phnom Penh",
+      "lat": 11.5432,
+      "lng": 104.9211,
+      "totalDocks": 20,
+      "availableBikes": 8,
+      "availableDocks": 12,
+      "isActive": true
+    },
+    "st_riverside_1": {
+      "name": "Riverside",
+      "address": "Sisowath Quay",
+      "lat": 11.5678,
+      "lng": 104.9234,
+      "totalDocks": 16,
+      "availableBikes": 5,
+      "availableDocks": 11,
+      "isActive": true
+    }
+  },
+  "subscriptions": {
+    "sub_001": {
+      "subInfoId": "pass_monthly",
+      "purchasedAt": "2026-04-15T08:30:00.000Z",
+      "durationDays": 30
+    }
+  }
+}
