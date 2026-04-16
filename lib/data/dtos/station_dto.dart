@@ -30,10 +30,20 @@ class StationDto {
         // value may be:
         // - { 'bike': { 'id': 'bike_001', 'status': 'available' } }
         // - { 'id': 'bike_001', 'status': 'available' } (inline bike)
-        // - { 'bikeId': 'bike_001' } (no status)
-        final dynamic bikeJson = value is Map<String, dynamic>
-            ? (value['bike'] ?? (value.containsKey('id') ? value : null))
-            : null;
+        // - { 'bikeId': 'bike_001', 'status': 'available' } (legacy format)
+        Map<String, dynamic>? bikeJson;
+        if (value is Map<String, dynamic>) {
+          if (value.containsKey('bike') &&
+              value['bike'] is Map<String, dynamic>) {
+            bikeJson = Map<String, dynamic>.from(value['bike']);
+          } else if (value.containsKey('id') && value['id'] is String) {
+            bikeJson = Map<String, dynamic>.from(value);
+          } else if (value.containsKey('bikeId') && value['bikeId'] is String) {
+            bikeJson = <String, dynamic>{'id': value['bikeId']};
+            if (value.containsKey('status'))
+              bikeJson['status'] = value['status'];
+          }
+        }
 
         docks.add(
           Dock(
@@ -53,9 +63,20 @@ class StationDto {
           final String dockId = item.keys.first;
           final dynamic value = item[dockId];
 
-          final dynamic bikeJson = value is Map<String, dynamic>
-              ? (value['bike'] ?? (value.containsKey('id') ? value : null))
-              : null;
+          Map<String, dynamic>? bikeJson;
+          if (value is Map<String, dynamic>) {
+            if (value.containsKey('bike') &&
+                value['bike'] is Map<String, dynamic>) {
+              bikeJson = Map<String, dynamic>.from(value['bike']);
+            } else if (value.containsKey('id') && value['id'] is String) {
+              bikeJson = Map<String, dynamic>.from(value);
+            } else if (value.containsKey('bikeId') &&
+                value['bikeId'] is String) {
+              bikeJson = <String, dynamic>{'id': value['bikeId']};
+              if (value.containsKey('status'))
+                bikeJson['status'] = value['status'];
+            }
+          }
 
           docks.add(
             Dock(
@@ -81,7 +102,7 @@ class StationDto {
         name: json[nameKey] as String,
       ),
       docks: docks,
-      totalDocks: json[totalDocksKey] as int
+      totalDocks: json[totalDocksKey] as int,
     );
   }
 
