@@ -54,8 +54,4 @@ class SubscriptionState extends ChangeNotifier {
     }
   }
 
-  // void updateSubscription(Subscription? newSubscription) {
-  //   _subscription = newSubscription;
-  //   notifyListeners();
-  // }
 }

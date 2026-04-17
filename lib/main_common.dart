@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/ui/screens/map_station/map_station_screen.dart';
-import 'package:khmerbike/ui/screens/map_station/widgets/map_station_content.dart';
 import 'package:khmerbike/ui/screens/subscription/subscription_screen.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
-import 'package:khmerbike/ui/screens/station/widgets/station_content.dart';
 import 'package:provider/provider.dart';
 
 void mainCommon(List<InheritedProvider> providers) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/bike.dart';
 import 'package:khmerbike/models/station.dart';
 import 'package:khmerbike/ui/screens/station/station_detail.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
@@ -12,7 +11,6 @@ class StationModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
