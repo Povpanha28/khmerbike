@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:khmerbike/models/subscription.dart';
 
 class StationAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String stationName;

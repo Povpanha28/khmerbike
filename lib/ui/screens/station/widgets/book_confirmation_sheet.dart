@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:khmerbike/ui/screens/station/view_model/station_view_model.dart';
+import 'package:khmerbike/ui/theme/app_theme.dart';
+import 'package:khmerbike/ui/widget/app_modal_template.dart';
 
 // The Bottom Sheet Widget
 class BookConfirmationSheet extends StatelessWidget {
@@ -21,38 +23,30 @@ class BookConfirmationSheet extends StatelessWidget {
           );
         }
 
-        return Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFE2E4E8), // Light grey background of bottom sheet
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        return AppModalFrame(
+          expandBody: false,
+          bodyPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          bodyBorderRadius: BorderRadius.zero,
+          header: AppModalHeader(
+            backgroundColor: AppTheme.primaryGreen,
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+            child: const Center(
+              child: Text(
+                'BOOK CONFIRMATION',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  letterSpacing: 1.1,
+                ),
+              ),
+            ),
           ),
-          padding: const EdgeInsets.all(20.0),
-          child: SafeArea(
+          body: SafeArea(
+            top: false,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(width: 24), // Balance the close button
-                    const Text(
-                      'Book Confirmation',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B253F),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.black87),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                // Bike Info Card
                 _buildInfoCard(
                   icon: Icons.pedal_bike,
                   title: 'Dock ${dock.id}',
@@ -61,16 +55,12 @@ class BookConfirmationSheet extends StatelessWidget {
                       : 'No bike available',
                 ),
                 const SizedBox(height: 12),
-
-                // Location Info Card
                 _buildInfoCard(
                   icon: Icons.location_on,
                   title: station?.name ?? 'Unknown Station',
                   subtitle: station?.location.name ?? 'Unknown Address',
                 ),
                 const SizedBox(height: 12),
-
-                // Pass Info Card
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -84,7 +74,7 @@ class BookConfirmationSheet extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Using Pass',
+                        'Using',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
@@ -101,16 +91,15 @@ class BookConfirmationSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Tap to Unlock Button
                 SizedBox(
                   width: double.infinity,
                   height: 56,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // TODO: Handle actual unlock logic here
-                    },
+                    onPressed: viewModel.isLoading
+                        ? null
+                        : () async {
+                            await viewModel.confirmBooking(context);
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF22C55E),
                       elevation: 0,
@@ -118,22 +107,31 @@ class BookConfirmationSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Tap to Unlock', // Changed from "Swap" for UX clarity
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                    child: viewModel.isLoading
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Confirm Booking',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(Icons.arrow_forward, color: Colors.white),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_forward, color: Colors.white),
-                      ],
                     ),
-                  ),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -154,7 +152,6 @@ class BookConfirmationSheet extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -162,7 +159,6 @@ class BookConfirmationSheet extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: const Color(0xFFD4F3DE),
-              borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: const Color(0xFF22C55E)),
           ),

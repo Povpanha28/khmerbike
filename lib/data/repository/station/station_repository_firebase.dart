@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:khmerbike/data/dtos/station_dto.dart';
 import 'package:khmerbike/data/repository/station/station_repository.dart';
 import 'package:khmerbike/models/bike.dart';
+import 'package:khmerbike/models/dock.dart';
 import 'package:khmerbike/models/station.dart';
 
 class StationRepositoryFirebase implements StationRepository {
@@ -62,6 +63,59 @@ class StationRepositoryFirebase implements StationRepository {
 
     // No direct mapping from List<Bike> to List<Dock> with current interface.
     // Keeping existing station untouched.
+    _cachedStations = stations;
+  }
+
+  @override
+  Future<void> updateBikeStatus({
+    required String stationId,
+    required String dockId,
+    required BikeStatus status,
+  }) async {
+    final Uri statusUri = Uri.https(
+      'project-flutter-da783-default-rtdb.firebaseio.com',
+      '/stations/$stationId/docks/$dockId/bike/status.json',
+    );
+
+    final http.Response response = await http.put(
+      statusUri,
+      body: json.encode(status.name),
+    );
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception('Failed to update bike status');
+    }
+
+    if (_cachedStations == null) {
+      await getStations();
+    }
+
+    final List<Station> stations = List<Station>.from(_cachedStations ?? []);
+    final int stationIndex = stations.indexWhere((s) => s.id == stationId);
+    if (stationIndex == -1) {
+      _cachedStations = stations;
+      return;
+    }
+
+    final Station station = stations[stationIndex];
+    final int dockIndex = station.docks.indexWhere((d) => d.id == dockId);
+    if (dockIndex == -1) {
+      _cachedStations = stations;
+      return;
+    }
+
+    final Dock currentDock = station.docks[dockIndex];
+    final Bike? bike = currentDock.bike;
+    if (bike == null) {
+      _cachedStations = stations;
+      return;
+    }
+
+    station.docks[dockIndex] = Dock(
+      id: currentDock.id,
+      bike: Bike(id: bike.id, status: status),
+    );
+
     _cachedStations = stations;
   }
 }

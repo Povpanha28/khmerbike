@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:khmerbike/models/station.dart';
 import 'package:khmerbike/ui/screens/map_station/widgets/station_modal.dart';
-import 'package:khmerbike/ui/screens/station/station_detail.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class CustomMap extends StatefulWidget {

@@ -4,4 +4,9 @@ import 'package:khmerbike/models/station.dart';
 abstract class StationRepository {
   Future<List<Station>> getStations();
   Future<void> updateStationBikes(String stationId, List<Bike> bikes);
+  Future<void> updateBikeStatus({
+    required String stationId,
+    required String dockId,
+    required BikeStatus status,
+  });
 }
