@@ -4,11 +4,7 @@ import 'package:khmerbike/ui/states/station_state.dart';
 import 'package:khmerbike/models/bike.dart';
 import 'package:khmerbike/models/dock.dart';
 import 'package:khmerbike/models/station.dart';
-import 'package:khmerbike/ui/screens/station/widgets/book_confirmation_sheet.dart';
-import 'package:khmerbike/ui/screens/station/widgets/no_subscription_bottom_sheet.dart';
-import 'package:khmerbike/ui/screens/subscription/subscription_screen.dart';
 import 'package:khmerbike/ui/states/subscription_state.dart';
-import 'package:provider/provider.dart';
 
 class StationViewModel extends ChangeNotifier {
   StationViewModel({
@@ -111,14 +107,15 @@ class StationViewModel extends ChangeNotifier {
     return _subscriptionState.getSubscriptionType(subscription);
   }
 
-
-  Future<void> confirmBooking(BuildContext context) async {
+  Future<String?> confirmBooking() async {
     final station = _station;
     final dock = selectedDock;
 
     if (station == null || dock == null || dock.bike == null) {
-      return;
+      return null;
     }
+
+    final String bikeId = dock.bike!.id;
 
     _isLoading = true;
     notifyListeners();
@@ -134,57 +131,14 @@ class StationViewModel extends ChangeNotifier {
       if (updated != null) _station = updated;
 
       notifyListeners();
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Bike ${dock.bike!.id} is now in use')),
-        );
-      }
+      return bikeId;
     } catch (e) {
       _errorMessage = e.toString();
       notifyListeners();
+      return null;
     } finally {
       _isLoading = false;
       notifyListeners();
-    }
-  }
-
-  void showBookConfirmation(BuildContext context, String dockId) {
-    selectDock(dockId);
-    final dock = selectedDock;
-    if (dock == null) {
-      return;
-    }
-
-    // Check if user has an active subscription
-    if (hasActiveSubscription) {
-      // Show booking confirmation with pass
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (_) => ChangeNotifierProvider<StationViewModel>.value(
-          value: this,
-          child: BookConfirmationSheet(subscriptionType: getSubscriptionType()),
-        ),
-      );
-    } else {
-      // Show no subscription modal with options to buy single-use ticket or view plans
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (sheetContext) => NoSubscriptionBottomSheet(
-          onBuySingleUse: () {
-            confirmBooking(sheetContext);
-          },
-          onViewPlans: () {
-            Navigator.pop(sheetContext);
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SubscriptionScreen()),
-            );
-          },
-        ),
-      );
     }
   }
 }

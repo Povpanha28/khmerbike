@@ -98,7 +98,16 @@ class BookConfirmationSheet extends StatelessWidget {
                     onPressed: viewModel.isLoading
                         ? null
                         : () async {
-                            await viewModel.confirmBooking(context);
+                            final bikeId = await viewModel.confirmBooking();
+                            if (!context.mounted) return;
+                            if (bikeId != null) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Bike $bikeId is now in use'),
+                                ),
+                              );
+                            }
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF22C55E),
@@ -131,7 +140,7 @@ class BookConfirmationSheet extends StatelessWidget {
                               Icon(Icons.arrow_forward, color: Colors.white),
                             ],
                           ),
-                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],
@@ -150,16 +159,12 @@ class BookConfirmationSheet extends StatelessWidget {
   }) {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
+      decoration: BoxDecoration(color: Colors.white),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFD4F3DE),
-            ),
+            decoration: BoxDecoration(color: const Color(0xFFD4F3DE)),
             child: Icon(icon, color: const Color(0xFF22C55E)),
           ),
           const SizedBox(width: 16),
