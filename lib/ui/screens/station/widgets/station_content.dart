@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/models/dock.dart';
-import 'package:khmerbike/models/subscription.dart';
 import 'package:khmerbike/ui/screens/station/widgets/appbar.dart';
-import 'package:khmerbike/ui/screens/station/widgets/dockCard_tile.dart';
-import 'package:khmerbike/ui/screens/station/widgets/sum_avail_bike.dart';
 import 'package:khmerbike/ui/screens/station/view_model/station_view_model.dart';
+import 'package:khmerbike/ui/widget/bike_dock_card.dart';
+import 'package:khmerbike/ui/widget/sum_avail_bike.dart';
 import 'package:provider/provider.dart';
 
 class StationContent extends StatelessWidget {

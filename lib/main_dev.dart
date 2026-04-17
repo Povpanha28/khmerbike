@@ -6,10 +6,11 @@ import 'package:khmerbike/data/repository/subscription/subscription_repository.d
 import 'package:khmerbike/data/repository/station/station_repository.dart';
 import 'package:khmerbike/main_common.dart';
 import 'package:khmerbike/ui/states/subscription_state.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:provider/provider.dart';
 
 /// Configure provider dependencies for dev environment
-List<InheritedProvider> get devProviders {
+List<SingleChildWidget> get devProviders {
   return [
     Provider<BikePassRepository>(create: (_) => BikePassRepositoryFirebase()),
     Provider<SubscriptionRepository>(
@@ -18,7 +19,7 @@ List<InheritedProvider> get devProviders {
     Provider<StationRepository>(
       create: (context) => StationRepositoryFirebase(),
     ),
-    ChangeNotifierProvider(
+    ChangeNotifierProvider<SubscriptionState>(
       create: (context) => SubscriptionState(
         subscriptionRepo: context.read<SubscriptionRepository>(),
       ),

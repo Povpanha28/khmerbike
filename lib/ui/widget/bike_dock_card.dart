@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/models/dock.dart';
+
 class BikeDockCard extends StatelessWidget {
   final Dock dock;
   final VoidCallback onUnlock;
 
   const BikeDockCard({
-    Key? key,
+    super.key,
     required this.dock,
     required this.onUnlock,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,6 @@ class BikeDockCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Green Icon Box
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -37,7 +37,6 @@ class BikeDockCard extends StatelessWidget {
             child: const Icon(Icons.pedal_bike, color: Color(0xFF22C55E)),
           ),
           const SizedBox(width: 16),
-          // Texts
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,17 +44,20 @@ class BikeDockCard extends StatelessWidget {
                 Text(
                   'Dock: ${dock.id}',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 14),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  dock.bike != null ? 'Bike ID: ${dock.bike!.id}' : 'No bike available',
+                  dock.bike != null
+                      ? 'Bike ID: ${dock.bike!.id}'
+                      : 'No bike available',
                   style: const TextStyle(color: Colors.grey, fontSize: 13),
                 ),
               ],
             ),
           ),
-          // Unlock Button
           ElevatedButton(
             onPressed: onUnlock,
             style: ElevatedButton.styleFrom(

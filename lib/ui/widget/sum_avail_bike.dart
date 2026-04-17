@@ -4,9 +4,9 @@ class SumAvailBike extends StatelessWidget {
   final int count;
 
   const SumAvailBike({
-    Key? key,
+    super.key,
     required this.count,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class SumAvailBike extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Icon(
                 Icons.pedal_bike,
                 color: Color(0xFF22C55E),
