@@ -10,7 +10,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:provider/provider.dart';
 
 /// Configure provider dependencies for dev environment
-List<SingleChildWidget> get devProviders {
+List<InheritedProvider> get devProviders {
   return [
     Provider<BikePassRepository>(create: (_) => BikePassRepositoryFirebase()),
     Provider<SubscriptionRepository>(
