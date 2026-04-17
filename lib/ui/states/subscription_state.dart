@@ -9,16 +9,25 @@ class SubscriptionState extends ChangeNotifier {
   }
 
   Subscription? get subscription => _subscription;
+  bool get isLoading => _isLoading;
+  Object? get error => _error;
 
   Subscription? _subscription;
+  bool _isLoading = true;
+  Object? _error;
 
   void _loadSubscription() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
     try {
       _subscription = await subscriptionRepo.getActiveSubscription();
-      // subscription loaded into state
-      notifyListeners();
     } catch (e) {
-      // Handle error as needed
+      _error = e;
+      _subscription = null;
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }
@@ -27,6 +36,7 @@ class SubscriptionState extends ChangeNotifier {
   Future<void> buyPass(String subInfoId, int durationDays) async {
     await subscriptionRepo.buyPass(subInfoId, durationDays);
     _subscription = await subscriptionRepo.getActiveSubscription();
+    _error = null;
     notifyListeners();
   }
 
@@ -34,6 +44,7 @@ class SubscriptionState extends ChangeNotifier {
   Future<void> cancelActiveSubscription() async {
     await subscriptionRepo.cancelSubscription();
     _subscription = null;
+    _error = null;
     notifyListeners();
   }
 
