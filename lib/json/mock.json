@@ -47,8 +47,8 @@
       "lng": 104.9211,
        "totalDocks": 16,
       "docks" : [
-        {"dock001": {"bikeId": "bike_001", "status": "available"}},
-        {"dock002": {"bikeId": "bike_002", "status": "available"}}
+        {"dock001": {"bikeId": "bike_001"}},
+        {"dock002": {"bikeId": "bike_002"}}
       ],
       "isActive": true
     },
@@ -59,7 +59,7 @@
       "lng": 104.9234,
       "totalDocks": 16,
       "docks" : [
-        {"dock001": {"bikeId": "bike_003", "status": "available"}}
+        {"dock001": {"bikeId": "bike_003"}}
       ],
       "isActive": true
     }

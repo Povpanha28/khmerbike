@@ -9,12 +9,14 @@ import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class CustomMap extends StatefulWidget {
   final List<Station> stations;
+  final Map<String, int> availableBikeCounts;
   final LatLng initialPosition;
   final Function(GoogleMapController) onMapCreated;
 
   const CustomMap({
     super.key,
     required this.stations,
+    required this.availableBikeCounts,
     required this.initialPosition,
     required this.onMapCreated,
   });
@@ -45,14 +47,8 @@ class _CustomMapState extends State<CustomMap> {
   @override
   void didUpdateWidget(covariant CustomMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final oldCounts = {
-      for (var s in oldWidget.stations)
-        s.id: s.docks.where((d) => d.bike != null).length,
-    };
-    final newCounts = {
-      for (var s in widget.stations)
-        s.id: s.docks.where((d) => d.bike != null).length,
-    };
+    final oldCounts = oldWidget.availableBikeCounts;
+    final newCounts = widget.availableBikeCounts;
     if (!_mapEquals(oldCounts, newCounts)) {
       _stationIcons.clear();
       _iconsCreated = false;
@@ -79,7 +75,7 @@ class _CustomMapState extends State<CustomMap> {
       final Uint8List imgBytes = data.buffer.asUint8List();
 
       for (final station in widget.stations) {
-        final bikeCount = station.docks.where((d) => d.bike != null).length;
+        final bikeCount = widget.availableBikeCounts[station.id] ?? 0;
         final BitmapDescriptor icon = await _createMarkerFromAsset(
           imgBytes,
           size,
@@ -159,7 +155,7 @@ class _CustomMapState extends State<CustomMap> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => StationModal(station: station),
+      builder: (_) => StationModal(station: station, availableBikes: widget.availableBikeCounts[station.id] ?? 0),
     );
   }
 

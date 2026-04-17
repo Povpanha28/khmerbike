@@ -22,6 +22,7 @@ class MapStationContent extends StatelessWidget {
               // Map
               CustomMap(
                 stations: stationsValue.data ?? [],
+                availableBikeCounts: vm.availableBikeCounts,
                 initialPosition: vm.initialPosition,
                 onMapCreated: vm.setMapController,
               ),
@@ -56,7 +57,7 @@ class MapStationContent extends StatelessWidget {
                                 child: const Text('Dismiss'),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),

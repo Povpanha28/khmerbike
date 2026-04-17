@@ -6,6 +6,10 @@ class Dock {
 
   Dock({required this.id, this.bike});
 
+  Dock copyWith({String? id, Bike? bike}) {
+    return Dock(id: id ?? this.id, bike: bike ?? this.bike);
+  }
+
   @override
   String toString() {
     return 'Dock{id: $id,  bike: $bike}';
