@@ -6,12 +6,12 @@ import 'package:khmerbike/ui/theme/app_theme.dart';
 
 class StationModal extends StatelessWidget {
   final Station station;
+  final int availableBikes;
 
-  const StationModal({super.key, required this.station});
+  const StationModal({super.key, required this.station, required this.availableBikes});
 
   @override
   Widget build(BuildContext context) {
-    final availableBikes = station.docks.where((d) => d.bike?.status == BikeStatus.available).length;
 
     final textTheme = Theme.of(context).textTheme;
 

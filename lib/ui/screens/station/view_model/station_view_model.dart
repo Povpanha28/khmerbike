@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/models/subscription.dart';
-import 'package:khmerbike/data/repository/station/station_repository.dart';
+import 'package:khmerbike/ui/states/station_state.dart';
 import 'package:khmerbike/models/bike.dart';
 import 'package:khmerbike/models/dock.dart';
 import 'package:khmerbike/models/station.dart';
@@ -12,14 +12,15 @@ import 'package:provider/provider.dart';
 
 class StationViewModel extends ChangeNotifier {
   StationViewModel({
-    required StationRepository repository,
+    required StationState stationState,
     required SubscriptionState subscriptionState,
-  }) : _repository = repository,
+  }) : _stationState = stationState,
        _subscriptionState = subscriptionState {
     _subscriptionState.addListener(_onSubscriptionChanged);
+    _stationState.addListener(_onStationStateChanged);
   }
 
-  final StationRepository _repository;
+  final StationState _stationState;
   final SubscriptionState _subscriptionState;
   Station? _station;
   bool _isLoading = false;
@@ -53,6 +54,7 @@ class StationViewModel extends ChangeNotifier {
   @override
   void dispose() {
     _subscriptionState.removeListener(_onSubscriptionChanged);
+    _stationState.removeListener(_onStationStateChanged);
     super.dispose();
   }
 
@@ -62,7 +64,9 @@ class StationViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final stations = await _repository.getStations();
+      // ensure global stations are loaded
+      await _stationState.reload();
+      final stations = _stationState.stations;
       if (stations.isEmpty) {
         throw StateError('No stations found');
       }
@@ -82,6 +86,16 @@ class StationViewModel extends ChangeNotifier {
     }
   }
 
+  void _onStationStateChanged() {
+    if (_station != null) {
+      final updated = _stationState.getStationById(_station!.id);
+      if (updated != null) {
+        _station = updated;
+        notifyListeners();
+      }
+    }
+  }
+
   List<Dock> getAvailableDocks(Station station) {
     return station.docks
         .where((dock) => dock.bike?.status == BikeStatus.available)
@@ -97,6 +111,7 @@ class StationViewModel extends ChangeNotifier {
     return _subscriptionState.getSubscriptionType(subscription);
   }
 
+
   Future<void> confirmBooking(BuildContext context) async {
     final station = _station;
     final dock = selectedDock;
@@ -109,19 +124,14 @@ class StationViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _repository.updateBikeStatus(
+      await _stationState.updateBikeStatus(
         stationId: station.id,
         dockId: dock.id,
         status: BikeStatus.inUse,
       );
 
-      final int dockIndex = station.docks.indexWhere((d) => d.id == dock.id);
-      if (dockIndex != -1) {
-        station.docks[dockIndex] = Dock(
-          id: dock.id,
-          bike: Bike(id: dock.bike!.id, status: BikeStatus.inUse),
-        );
-      }
+      final updated = _stationState.getStationById(station.id);
+      if (updated != null) _station = updated;
 
       notifyListeners();
       if (context.mounted) {
@@ -170,14 +180,11 @@ class StationViewModel extends ChangeNotifier {
           onViewPlans: () {
             Navigator.pop(sheetContext);
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const SubscriptionScreen(),
-              ),
+              MaterialPageRoute(builder: (_) => const SubscriptionScreen()),
             );
           },
         ),
       );
     }
   }
-
 }

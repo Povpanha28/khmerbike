@@ -12,7 +12,50 @@ class StationDto {
   static const String totalDocksKey = 'totalDocks';
   static const String isActiveKey = 'isActive';
 
-  static Station fromJson(String id, Map<String, dynamic> json) {
+  static Map<String, dynamic>? _resolveBikeJson(
+    Map<String, dynamic> value, {
+    Map<String, dynamic>? bikes,
+  }) {
+    if (value.containsKey('bike') && value['bike'] is Map<String, dynamic>) {
+      final bikeMap = Map<String, dynamic>.from(
+        value['bike'] as Map<String, dynamic>,
+      );
+      return bikeMap['id'] is String && bikeMap['status'] is String
+          ? bikeMap
+          : null;
+    }
+
+    if (value.containsKey('id') &&
+        value['id'] is String &&
+        value['status'] is String) {
+      return Map<String, dynamic>.from(value);
+    }
+
+    if (value.containsKey('bikeId') && value['bikeId'] is String) {
+      final String bikeId = value['bikeId'] as String;
+      // Source of truth: top-level bikes map by bikeId
+      if (bikes != null && bikes[bikeId] is Map<String, dynamic>) {
+        final bikeMap = Map<String, dynamic>.from(
+          bikes[bikeId] as Map<String, dynamic>,
+        );
+        if (bikeMap['status'] is String) {
+          return <String, dynamic>{'id': bikeId, ...bikeMap};
+        }
+      }
+      // fallback only if legacy inline status exists next to bikeId
+      if (value['status'] is String) {
+        return <String, dynamic>{'id': bikeId, 'status': value['status']};
+      }
+    }
+
+    return null;
+  }
+
+  static Station fromJson(
+    String id,
+    Map<String, dynamic> json, {
+    Map<String, dynamic>? bikes,
+  }) {
     assert(json[nameKey] is String);
     assert(json[latKey] is num);
     assert(json[lngKey] is num);
@@ -30,25 +73,16 @@ class StationDto {
         // value may be:
         // - { 'bike': { 'id': 'bike_001', 'status': 'available' } }
         // - { 'id': 'bike_001', 'status': 'available' } (inline bike)
-        // - { 'bikeId': 'bike_001', 'status': 'available' } (legacy format)
+        // - { 'bikeId': 'bike_001' } (status resolved from top-level bikes map)
         Map<String, dynamic>? bikeJson;
         if (value is Map<String, dynamic>) {
-          if (value.containsKey('bike') &&
-              value['bike'] is Map<String, dynamic>) {
-            bikeJson = Map<String, dynamic>.from(value['bike']);
-          } else if (value.containsKey('id') && value['id'] is String) {
-            bikeJson = Map<String, dynamic>.from(value);
-          } else if (value.containsKey('bikeId') && value['bikeId'] is String) {
-            bikeJson = <String, dynamic>{'id': value['bikeId']};
-            if (value.containsKey('status'))
-              bikeJson['status'] = value['status'];
-          }
+          bikeJson = _resolveBikeJson(value, bikes: bikes);
         }
 
         docks.add(
           Dock(
             id: entry.key,
-            bike: bikeJson is Map<String, dynamic>
+            bike: bikeJson != null
                 ? BikeDto.fromJson(
                     bikeJson['id'] as String,
                     Map<String, dynamic>.from(bikeJson),
@@ -65,23 +99,13 @@ class StationDto {
 
           Map<String, dynamic>? bikeJson;
           if (value is Map<String, dynamic>) {
-            if (value.containsKey('bike') &&
-                value['bike'] is Map<String, dynamic>) {
-              bikeJson = Map<String, dynamic>.from(value['bike']);
-            } else if (value.containsKey('id') && value['id'] is String) {
-              bikeJson = Map<String, dynamic>.from(value);
-            } else if (value.containsKey('bikeId') &&
-                value['bikeId'] is String) {
-              bikeJson = <String, dynamic>{'id': value['bikeId']};
-              if (value.containsKey('status'))
-                bikeJson['status'] = value['status'];
-            }
+            bikeJson = _resolveBikeJson(value, bikes: bikes);
           }
 
           docks.add(
             Dock(
               id: dockId,
-              bike: bikeJson is Map<String, dynamic>
+              bike: bikeJson != null
                   ? BikeDto.fromJson(
                       bikeJson['id'] as String,
                       Map<String, dynamic>.from(bikeJson),

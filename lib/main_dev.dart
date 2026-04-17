@@ -8,6 +8,7 @@ import 'package:khmerbike/main_common.dart';
 import 'package:khmerbike/ui/states/subscription_state.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:khmerbike/ui/states/station_state.dart';
 
 /// Configure provider dependencies for dev environment
 List<InheritedProvider> get devProviders {
@@ -18,6 +19,10 @@ List<InheritedProvider> get devProviders {
     ),
     Provider<StationRepository>(
       create: (context) => StationRepositoryFirebase(),
+    ),
+    ChangeNotifierProvider<StationState>(
+      create: (context) =>
+          StationState(repository: context.read<StationRepository>()),
     ),
     ChangeNotifierProvider<SubscriptionState>(
       create: (context) => SubscriptionState(
