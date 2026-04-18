@@ -1,25 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/models/bike_pass.dart';
+import 'package:khmerbike/models/subscription.dart';
 import 'package:khmerbike/ui/screens/subscription/view_model/subscription_view_model.dart';
 import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/subscription_detail_modal.dart';
 import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/subscription_card.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionInfoTab extends StatefulWidget {
+class SubscriptionInfoTab extends StatelessWidget {
   const SubscriptionInfoTab();
-
-  @override
-  State<SubscriptionInfoTab> createState() => _SubscriptionInfoTabState();
-}
-
-class _SubscriptionInfoTabState extends State<SubscriptionInfoTab> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<SubscriptionViewModel>().loadData();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +23,13 @@ class _SubscriptionInfoTabState extends State<SubscriptionInfoTab> {
           separatorBuilder: (_, __) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
             final pass = viewModel.subscriptionPlans[index];
-            final isActive =
-                viewModel.activeSubscription?.subInfoId == pass.id;
+            final activeSubscription = viewModel.activeSubscription;
+            final isActive = activeSubscription?.subInfoId == pass.id;
             return SubscriptionCard(
               pass: pass,
               isActive: isActive,
-              onTap: () => _showPassDetailModal(context, pass),
+              onTap: () =>
+                  _handlePassTap(context, viewModel, activeSubscription, pass),
             );
           },
         );
@@ -48,22 +37,44 @@ class _SubscriptionInfoTabState extends State<SubscriptionInfoTab> {
     );
   }
 
+  void _handlePassTap(
+    BuildContext context,
+    SubscriptionViewModel viewModel,
+    Subscription? activeSubscription,
+    BikePass pass,
+  ) {
+    if (activeSubscription != null && !activeSubscription.isExpired) {
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+            content: Text(
+              'You can buy one pass at a time. Please cancel your pass or wait until it expired.',
+            ),
+          ),
+        );
+      return;
+    }
+
+    _showPassDetailModal(context, viewModel, pass);
+  }
+
   Future<void> _showPassDetailModal(
     BuildContext context,
+    SubscriptionViewModel viewModel,
     BikePass pass,
   ) async {
-    final viewModel = context.read<SubscriptionViewModel>();
-    if (mounted) {
-      showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        useSafeArea: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        builder: (context) =>
-            SubscriptionDetailModal(pass: pass, viewModel: viewModel),
-      );
-    }
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (context) =>
+          SubscriptionDetailModal(pass: pass, viewModel: viewModel),
+    );
   }
 }

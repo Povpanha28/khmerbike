@@ -39,7 +39,6 @@ class MyPassTab extends StatelessWidget {
               PrimaryButton(
                 label: 'Unlock a bike',
                 onPressed: () {
-                  // TODO: handle unlock
                 },
               ),
               const SizedBox(height: 12),
@@ -63,9 +62,7 @@ class MyPassTab extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Ticket card widget
-// ---------------------------------------------------------------------------
 
 class _TicketCard extends StatelessWidget {
   final BikePass pass;
