@@ -11,6 +11,10 @@ class StationState extends ChangeNotifier {
   }
 
   AsyncValue<List<Station>> stationsValue = AsyncValue.loading();
+  String? _activeBookedBikeId;
+
+  String? get activeBookedBikeId => _activeBookedBikeId;
+  bool get hasActiveBookedBike => _activeBookedBikeId != null;
 
   List<Station> get stations => stationsValue.data ?? [];
 
@@ -71,10 +75,19 @@ class StationState extends ChangeNotifier {
 
     final dock = station.docks[dIndex];
     final bike = dock.bike;
+    final String? bikeId = bike?.id;
     final newBike = bike != null
         ? Bike(id: bike.id, status: status)
         : Bike(id: 'unknown', status: status);
     station.docks[dIndex] = dock.copyWith(bike: newBike);
+
+    if (bikeId != null) {
+      if (status == BikeStatus.inUse) {
+        _activeBookedBikeId = bikeId;
+      } else if (_activeBookedBikeId == bikeId) {
+        _activeBookedBikeId = null;
+      }
+    }
 
     // update stationsValue to same list instance so widgets holding references see mutation
     stationsValue = AsyncValue.success(current);

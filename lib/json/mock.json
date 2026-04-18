@@ -26,18 +26,21 @@
     }
   },
   "bikes": {
-    "bike_001": {
-      "stationId": "st_aeon_1",
-      "status": "available"
-    },
-    "bike_002": {
-      "stationId": "st_aeon_1",
-      "status": "available"
-    },
-    "bike_003": {
-      "stationId": "st_riverside_1",
-      "status": "available"
-    }
+    "bike_001": { "stationId": "st_aeon_1", "status": "available" },
+    "bike_002": { "stationId": "st_aeon_1", "status": "available" },
+    "bike_003": { "stationId": "st_riverside_1", "status": "available" },
+
+    "bike_004": { "stationId": "st_aeon_2", "status": "available" },
+    "bike_005": { "stationId": "st_aeon_2", "status": "available" },
+    "bike_006": { "stationId": "st_aeon_2", "status": "available" },
+
+    "bike_007": { "stationId": "st_central_market", "status": "available" },
+    "bike_008": { "stationId": "st_central_market", "status": "available" },
+    "bike_009": { "stationId": "st_central_market", "status": "available" },
+
+    "bike_010": { "stationId": "st_bkk1", "status": "available" },
+    "bike_011": { "stationId": "st_bkk1", "status": "available" },
+    "bike_012": { "stationId": "st_bkk1", "status": "available" }
   },
   "stations": {
     "st_aeon_1": {
@@ -45,10 +48,10 @@
       "address": "Phnom Penh",
       "lat": 11.5432,
       "lng": 104.9211,
-       "totalDocks": 16,
-      "docks" : [
-        {"dock001": {"bikeId": "bike_001"}},
-        {"dock002": {"bikeId": "bike_002"}}
+      "totalDocks": 16,
+      "docks": [
+        { "dock001": { "bikeId": "bike_001" } },
+        { "dock002": { "bikeId": "bike_002" } }
       ],
       "isActive": true
     },
@@ -58,8 +61,50 @@
       "lat": 11.5678,
       "lng": 104.9234,
       "totalDocks": 16,
-      "docks" : [
-        {"dock001": {"bikeId": "bike_003"}}
+      "docks": [
+        { "dock001": { "bikeId": "bike_003" } }
+      ],
+      "isActive": true
+    },
+
+    "st_aeon_2": {
+      "name": "AEON Mall 2",
+      "address": "Sen Sok",
+      "lat": 11.5850,
+      "lng": 104.8800,
+      "totalDocks": 20,
+      "docks": [
+        { "dock001": { "bikeId": "bike_004" } },
+        { "dock002": { "bikeId": "bike_005" } },
+        { "dock003": { "bikeId": "bike_006" } }
+      ],
+      "isActive": true
+    },
+
+    "st_central_market": {
+      "name": "Central Market",
+      "address": "Phsar Thmey",
+      "lat": 11.5696,
+      "lng": 104.9175,
+      "totalDocks": 18,
+      "docks": [
+        { "dock001": { "bikeId": "bike_007" } },
+        { "dock002": { "bikeId": "bike_008" } },
+        { "dock003": { "bikeId": "bike_009" } }
+      ],
+      "isActive": true
+    },
+
+    "st_bkk1": {
+      "name": "BKK1",
+      "address": "Boeng Keng Kang 1",
+      "lat": 11.5480,
+      "lng": 104.9300,
+      "totalDocks": 15,
+      "docks": [
+        { "dock001": { "bikeId": "bike_010" } },
+        { "dock002": { "bikeId": "bike_011" } },
+        { "dock003": { "bikeId": "bike_012" } }
       ],
       "isActive": true
     }

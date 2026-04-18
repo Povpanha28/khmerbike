@@ -92,6 +92,17 @@ Future<void> _showBookFlow(
   StationViewModel viewModel,
   Dock dock,
 ) async {
+  if (!viewModel.canBookBike(dock.bike?.id) && context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'You already booked bike ${viewModel.activeBookedBikeId}. Return it before booking another.',
+        ),
+      ),
+    );
+    return;
+  }
+
   viewModel.selectDock(dock.id);
 
   if (viewModel.hasActiveSubscription) {
@@ -116,11 +127,17 @@ Future<void> _showBookFlow(
       onBuySingleUse: () async {
         final bikeId = await viewModel.confirmBooking();
         if (!sheetContext.mounted) return;
-        Navigator.pop(sheetContext);
-        if (bikeId != null && context.mounted) {
+        if (bikeId != null) {
+          Navigator.pop(sheetContext);
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Bike $bikeId is now in use')),
+            );
+          }
+        } else if (context.mounted && viewModel.errorMessage != null) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Bike $bikeId is now in use')));
+          ).showSnackBar(SnackBar(content: Text(viewModel.errorMessage!)));
         }
       },
       onViewPlans: () {

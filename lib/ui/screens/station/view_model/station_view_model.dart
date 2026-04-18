@@ -107,15 +107,32 @@ class StationViewModel extends ChangeNotifier {
     return _subscriptionState.getSubscriptionType(subscription);
   }
 
+  String? get activeBookedBikeId => _stationState.activeBookedBikeId;
+
+  bool canBookBike(String? bikeId) {
+    if (bikeId == null) return false;
+    final active = _stationState.activeBookedBikeId;
+    return active == null || active == bikeId;
+  }
+
   Future<String?> confirmBooking() async {
     final station = _station;
     final dock = selectedDock;
 
     if (station == null || dock == null || dock.bike == null) {
+      _errorMessage = 'No bike selected';
+      notifyListeners();
       return null;
     }
 
     final String bikeId = dock.bike!.id;
+
+    if (!canBookBike(bikeId)) {
+      _errorMessage =
+          'You already have an active bike (${_stationState.activeBookedBikeId}). Return it before booking another.';
+      notifyListeners();
+      return null;
+    }
 
     _isLoading = true;
     notifyListeners();
@@ -130,6 +147,7 @@ class StationViewModel extends ChangeNotifier {
       final updated = _stationState.getStationById(station.id);
       if (updated != null) _station = updated;
 
+      _errorMessage = null;
       notifyListeners();
       return bikeId;
     } catch (e) {

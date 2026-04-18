@@ -107,6 +107,12 @@ class BookConfirmationSheet extends StatelessWidget {
                                   content: Text('Bike $bikeId is now in use'),
                                 ),
                               );
+                            } else if (viewModel.errorMessage != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(viewModel.errorMessage!),
+                                ),
+                              );
                             }
                           },
                     style: ElevatedButton.styleFrom(
