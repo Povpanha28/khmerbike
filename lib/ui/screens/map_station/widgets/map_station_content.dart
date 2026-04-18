@@ -67,10 +67,10 @@ class MapStationContent extends StatelessWidget {
                   ),
                 ),
 
-              /// 🔍 Search bar
+              ///  Search bar
               Searchbar(controller: controller),
 
-              /// 🎯 Floating button
+              ///  Floating button
               GoInitButton(goToInitial: vm.goToInitial),
             ],
           ),
