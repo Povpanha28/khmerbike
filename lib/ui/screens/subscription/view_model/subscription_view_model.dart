@@ -14,14 +14,14 @@ class SubscriptionViewModel extends ChangeNotifier {
     required SubscriptionState subscriptionState,
   }) : _bikePassRepository = bikePassRepository,
        _subscriptionState = subscriptionState {
+    loadData();
     _subscriptionState.addListener(_onSubscriptionChanged);
   }
 
   AsyncValue<List<BikePass>> _subscriptionPlansState = AsyncValue.loading();
   Object? _actionError;
 
-  AsyncValue<List<BikePass>> get subscriptionPlansState =>
-      _subscriptionPlansState;
+  AsyncValue<List<BikePass>> get subscriptionPlansState => _subscriptionPlansState;
 
   List<BikePass> get subscriptionPlans => _subscriptionPlansState.data ?? [];
   Subscription? get activeSubscription => _subscriptionState.subscription;

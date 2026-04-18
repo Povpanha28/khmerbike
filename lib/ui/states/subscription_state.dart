@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khmerbike/data/repository/subscription/subscription_repository.dart';
 import 'package:khmerbike/models/subscription.dart';
+import 'package:khmerbike/ui/utils/async_value.dart';
 
 class SubscriptionState extends ChangeNotifier {
   final SubscriptionRepository subscriptionRepo;
@@ -8,43 +9,55 @@ class SubscriptionState extends ChangeNotifier {
     _loadSubscription();
   }
 
-  Subscription? get subscription => _subscription;
-  bool get isLoading => _isLoading;
-  Object? get error => _error;
+  AsyncValue<Subscription?> get subscriptionValue => _subscriptionValue;
+  Subscription? get subscription => _subscriptionValue.data;
+  bool get isLoading => _subscriptionValue.state == AsyncValueState.loading;
+  Object? get error => _subscriptionValue.error;
 
-  Subscription? _subscription;
-  bool _isLoading = true;
-  Object? _error;
+  AsyncValue<Subscription?> _subscriptionValue = AsyncValue.loading();
 
   void _loadSubscription() async {
-    _isLoading = true;
-    _error = null;
+    _subscriptionValue = AsyncValue.loading();
     notifyListeners();
 
     try {
-      _subscription = await subscriptionRepo.getActiveSubscription();
+      final activeSubscription = await subscriptionRepo.getActiveSubscription();
+      _subscriptionValue = AsyncValue.success(activeSubscription);
     } catch (e) {
-      _error = e;
-      _subscription = null;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      _subscriptionValue = AsyncValue.error(e);
     }
+
+    notifyListeners();
   }
 
   /// Purchase a pass and refresh state
   Future<void> buyPass(String subInfoId, int durationDays) async {
-    await subscriptionRepo.buyPass(subInfoId, durationDays);
-    _subscription = await subscriptionRepo.getActiveSubscription();
-    _error = null;
+    _subscriptionValue = AsyncValue.loading();
+    notifyListeners();
+
+    try {
+      await subscriptionRepo.buyPass(subInfoId, durationDays);
+      final activeSubscription = await subscriptionRepo.getActiveSubscription();
+      _subscriptionValue = AsyncValue.success(activeSubscription);
+    } catch (e) {
+      _subscriptionValue = AsyncValue.error(e);
+    }
+
     notifyListeners();
   }
 
   /// Cancel the active subscription and refresh state
   Future<void> cancelActiveSubscription() async {
-    await subscriptionRepo.cancelSubscription();
-    _subscription = null;
-    _error = null;
+    _subscriptionValue = AsyncValue.loading();
+    notifyListeners();
+
+    try {
+      await subscriptionRepo.cancelSubscription();
+      _subscriptionValue = AsyncValue.success(null);
+    } catch (e) {
+      _subscriptionValue = AsyncValue.error(e);
+    }
+
     notifyListeners();
   }
 
@@ -64,5 +77,4 @@ class SubscriptionState extends ChangeNotifier {
         return 'Unknown Subscription';
     }
   }
-
 }

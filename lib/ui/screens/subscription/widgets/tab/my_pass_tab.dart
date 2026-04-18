@@ -68,9 +68,7 @@ class MyPassTab extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Ticket card widget
-// ---------------------------------------------------------------------------
 
 class _TicketCard extends StatelessWidget {
   final BikePass pass;
