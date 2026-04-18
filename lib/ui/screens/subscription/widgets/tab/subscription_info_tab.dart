@@ -7,7 +7,7 @@ import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/subscripti
 import 'package:provider/provider.dart';
 
 class SubscriptionInfoTab extends StatelessWidget {
-  const SubscriptionInfoTab();
+  const SubscriptionInfoTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,15 @@ class SubscriptionInfoTab extends StatelessWidget {
       builder: (context, viewModel, _) {
         if (viewModel.isLoading) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (viewModel.error != null && viewModel.subscriptionPlans.isEmpty) {
+          return const Center(
+            child: Text(
+              'Failed to load subscription plans.',
+              style: TextStyle(color: Colors.grey, fontSize: 16),
+            ),
+          );
         }
 
         return ListView.separated(
