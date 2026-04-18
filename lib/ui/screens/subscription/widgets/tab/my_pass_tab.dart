@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:khmerbike/main_common.dart';
 import 'package:khmerbike/models/bike_pass.dart';
+import 'package:khmerbike/ui/screens/map_station/map_station_screen.dart';
+import 'package:khmerbike/ui/screens/map_station/widgets/map_station_content.dart';
 import 'package:khmerbike/ui/screens/subscription/view_model/subscription_view_model.dart';
 import 'package:khmerbike/ui/theme/app_theme.dart';
 import 'package:khmerbike/ui/widget/app_buttons.dart';
@@ -7,7 +10,7 @@ import 'package:khmerbike/ui/screens/subscription/widgets/tab/widgets/cancel_sub
 import 'package:provider/provider.dart';
 
 class MyPassTab extends StatelessWidget {
-  const MyPassTab();
+  const MyPassTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,9 @@ class MyPassTab extends StatelessWidget {
               PrimaryButton(
                 label: 'Unlock a bike',
                 onPressed: () {
+                  Navigator.of(
+                    context,
+                  ).push(MaterialPageRoute(builder: (_) => const MyApp()));
                 },
               ),
               const SizedBox(height: 12),
@@ -156,7 +162,7 @@ class _TicketCard extends StatelessWidget {
                     ],
                   ),
                 ),
-            
+
                 // ── Tear edge ───────────────────────────────────────────────────
                 SizedBox(
                   height: 20,
@@ -165,7 +171,7 @@ class _TicketCard extends StatelessWidget {
                     size: const Size(double.infinity, 20),
                   ),
                 ),
-            
+
                 // ── White bottom stub ───────────────────────────────────────────
                 Container(
                   width: double.infinity,
@@ -186,7 +192,10 @@ class _TicketCard extends StatelessWidget {
                           value: '\$${pass.price.toStringAsFixed(2)}',
                         ),
                         _StubDivider(),
-                        _StubStat(label: 'Valid for', value: pass.validityLabel),
+                        _StubStat(
+                          label: 'Valid for',
+                          value: pass.validityLabel,
+                        ),
                         _StubDivider(),
                         _StubStat(label: 'Until', value: pass.validUntilLabel),
                       ],
